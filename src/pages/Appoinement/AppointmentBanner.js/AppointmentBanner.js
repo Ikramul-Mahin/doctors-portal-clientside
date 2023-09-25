@@ -16,7 +16,7 @@ const AppointmentBanner = () => {
                         onSelect={setSelectedDate}
 
                     />
-                    <p >You have selected <span className='text-blue-800 font-bold'> {format(selectedDate, 'PP')}. </span></p>
+                    <p>You have selected <span className='text-blue-800 font-bold'> {format(selectedDate, 'PP')}. </span></p>
                 </div>
             </div>
         </div>
