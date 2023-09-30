@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AppointmentOption = ({ appointmentOption }) => {
+const AppointmentOption = ({ appointmentOption, setTreatment }) => {
     const { name, price, slots } = appointmentOption;
     return (
         <div className="card shadow-xl text-gray-800">
@@ -14,7 +14,7 @@ const AppointmentOption = ({ appointmentOption }) => {
                         // disabled={slots.length === 0}
                         htmlFor="booking-modal"
                         className="btn btn-primary text-white"
-                    // onClick={() => setTreatment(appointmentOption)}
+                        onClick={() => setTreatment(appointmentOption)}
                     >Book Appointment</label>
                 </div>
             </div>
