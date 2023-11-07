@@ -1,14 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { AuthContext } from '../../contexts/AuthProvider';
 // import { Link, useLocation, useNavigate } from 'react-router-dom';
 // import { AuthContext } from '../../contexts/AuthProvider';
 // import useToken from '../../hooks/useToken';
 
 const Login = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
-    // const { signIn } = useContext(AuthContext);
-    // const [loginError, setLoginError] = useState('');
+    const { signIn } = useContext(AuthContext);
+    const [loginError, setLoginError] = useState('');
     // const [loginUserEmail, setLoginUserEmail] = useState('');
     // const [token] = useToken(loginUserEmail);
     // const location = useLocation();
@@ -22,17 +23,18 @@ const Login = () => {
 
     const handleLogin = data => {
         console.log(data);
-        // setLoginError('');
-        // signIn(data.email, data.password)
-        //     .then(result => {
-        //         const user = result.user;
-        //         console.log(user);
-        //         setLoginUserEmail(data.email);
-        //     })
-        //     .catch(error => {
-        //         console.log(error.message)
-        //         setLoginError(error.message);
-        //     });
+        setLoginError('');
+        signIn(data.email, data.password)
+            .then(result => {
+                const user = result.user;
+                console.log(user);
+
+            })
+            .catch(error => {
+                console.log(error.message)
+                setLoginError(error.message)
+
+            });
     }
 
     return (
@@ -62,7 +64,7 @@ const Login = () => {
                     </div>
                     <input className='btn btn-neutral w-full' value="Login" type="submit" />
                     <div>
-                        {/* {loginError && <p className='text-red-600'>{loginError}</p>} */}
+                        {loginError && <p className='text-red-600'>{loginError}</p>}
                     </div>
                 </form>
                 <p className=' text-black'>New to Doctors Portal <Link className=' text-blue-600' to='/signup'>Create new Account</Link></p>
