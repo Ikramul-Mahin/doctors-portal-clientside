@@ -6,8 +6,7 @@ import toast from 'react-hot-toast';
 const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
     const { name: treatmentName, slots, price } = treatment;
     const date = format(selectedDate, 'PP');
-
-    const { user } = useContext(AuthContext)
+    const { user } = useContext(AuthContext);
 
     const handleBooking = event => {
         event.preventDefault();
@@ -16,7 +15,7 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
         const name = form.name.value;
         const email = form.email.value;
         const phone = form.phone.value;
-
+        // [3, 4, 5].map((value, i) => console.log(value))
         const booking = {
             appointmentDate: date,
             treatment: treatmentName,
@@ -24,12 +23,15 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
             slot,
             email,
             phone,
-
+            price
         }
 
+        // TODO: send data to the server
+        // and once data is saved then close the modal 
+        // and display success toast
         fetch('http://localhost:5000/bookings', {
             method: 'POST',
-            header: {
+            headers: {
                 'content-type': 'application/json'
             },
             body: JSON.stringify(booking)
@@ -37,15 +39,15 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                if (data.acknowledge) {
-                    setTreatment(null)
-                    toast.success('Booking Confirmed')
-                    refetch()
+                if (data.acknowledged) {
+                    setTreatment(null);
+                    toast.success('Booking confirmed');
+                    refetch();
+                }
+                else {
+                    toast.error(data.message);
                 }
             })
-
-
-
     }
 
     return (
@@ -65,7 +67,7 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
                                 >{slot}</option>)
                             }
                         </select>
-                        <input name="name" type="text" placeholder="Your Name" defaultValue={user?.treatment} className="input w-full input-bordered" />
+                        <input name="name" type="text" placeholder="Your Name" defaultValue={user?.displayName} className="input w-full input-bordered" />
                         <input name="email" type="email" placeholder="Email Address" defaultValue={user?.email} className="input w-full input-bordered" />
                         <input name="phone" type="text" placeholder="Phone Number" className="input w-full input-bordered" />
                         <br />
